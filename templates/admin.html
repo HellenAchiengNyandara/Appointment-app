@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Admin{% endblock %}
+{% block content %}
+<h2>Admin — Users</h2>
+<div class="table-responsive">
+  <table class="table bg-white">
+    <thead><tr><th>ID</th><th>Username</th><th>Role</th><th>Created</th><th>Change role</th></tr></thead>
+    <tbody>
+    {% for u in users %}
+      <tr>
+        <td>{{ u.id }}</td>
+        <td>{{ u.username }}</td>
+        <td><span class="badge bg-{{ 'warning' if u.role=='admin' else 'secondary' }}">{{ u.role }}</span></td>
+        <td>{{ u.created_at }}</td>
+        <td>
+          <form method="post" action="{{ url_for('admin_change_role') }}" class="d-flex gap-2">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="user_id" value="{{ u.id }}">
+            <select name="role" class="form-select form-select-sm" style="width:auto">
+              <option value="user" {% if u.role=='user' %}selected{% endif %}>user</option>
+              <option value="admin" {% if u.role=='admin' %}selected{% endif %}>admin</option>
+            </select>
+            <button class="btn btn-sm btn-primary">Update</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+<a class="btn btn-outline-dark" href="{{ url_for('admin_logs') }}">View audit logs →</a>
+{% endblock %}

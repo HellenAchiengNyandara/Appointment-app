@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Share appointment{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="mb-3">Share "{{ appt.title }}"</h3>
+        <form method="post" novalidate>
+          {{ form.hidden_tag() }}
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            {{ form.username(class="form-control") }}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Permission</label>
+            {{ form.permission(class="form-select") }}
+          </div>
+          <button class="btn btn-primary">Share</button>
+          <a class="btn btn-link" href="{{ url_for('dashboard') }}">Back</a>
+        </form>
+        <hr>
+        <h5>Currently shared with</h5>
+        {% if shares %}
+          <ul class="list-group">
+            {% for s in shares %}
+              <li class="list-group-item d-flex justify-content-between">
+                <span>{{ s.username }}</span>
+                <span class="badge bg-{{ 'success' if s.permission=='edit' else 'secondary' }}">
+                  {{ s.permission }}
+                </span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted">Not shared with anyone yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

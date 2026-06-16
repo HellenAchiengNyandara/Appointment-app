@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<h2 class="mb-4">Profile</h2>
+<div class="card">
+  <div class="card-body">
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Role:</strong> {{ user.role }}</p>
+    <form method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="mb-3">
+        <label class="form-label">Email address (used for reminders)</label>
+        <input type="email" name="email" class="form-control" value="{{ user.email or '' }}">
+      </div>
+      <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" name="receive_email_reminders"
+               id="reminderToggle" {% if user.receive_email_reminders %}checked{% endif %}>
+        <label class="form-check-label" for="reminderToggle">
+          Send me email reminders before my appointments (24h and 1h)
+        </label>
+      </div>
+      <button class="btn btn-primary" type="submit">Save preferences</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

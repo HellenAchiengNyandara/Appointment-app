@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ mode }} appointment{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="mb-3">{{ mode }} appointment</h3>
+        <form method="post" novalidate>
+          {{ form.hidden_tag() }}
+          <div class="mb-3">
+            <label class="form-label">Title</label>
+            {{ form.title(class="form-control") }}
+            {% for e in form.title.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            {{ form.description(class="form-control", rows=3) }}
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Start</label>
+              {{ form.start_datetime(class="form-control") }}
+              {% for e in form.start_datetime.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">End</label>
+              {{ form.end_datetime(class="form-control") }}
+              {% for e in form.end_datetime.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+            </div>
+          </div>
+          <button class="btn btn-primary">{{ mode }}</button>
+          <a class="btn btn-link" href="{{ url_for('dashboard') }}">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

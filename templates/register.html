@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="mb-3">Create account</h3>
+        <form method="post" novalidate>
+          {{ form.hidden_tag() }}
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            {{ form.username(class="form-control") }}
+            {% for e in form.username.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            {{ form.password(class="form-control") }}
+            <div class="form-text">Min 8 chars, with upper, lower, digit, and special character.</div>
+            {% for e in form.password.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Confirm password</label>
+            {{ form.confirm(class="form-control") }}
+            {% for e in form.confirm.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <button class="btn btn-primary w-100">Register</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

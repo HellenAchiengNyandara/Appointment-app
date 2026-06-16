@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Audit logs{% endblock %}
+{% block content %}
+<h2>Audit logs</h2>
+<form method="get" class="row g-2 mb-3">
+  <div class="col-auto">
+    <input type="text" name="user_id" value="{{ user_filter }}" class="form-control" placeholder="User ID">
+  </div>
+  <div class="col-auto">
+    <select name="action" class="form-select">
+      <option value="">All actions</option>
+      {% for a in actions %}
+        <option value="{{ a.action }}" {% if a.action==action_filter %}selected{% endif %}>{{ a.action }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-primary">Filter</button>
+    <a class="btn btn-link" href="{{ url_for('admin_logs') }}">Reset</a>
+  </div>
+</form>
+
+<div class="table-responsive">
+  <table class="table table-sm bg-white">
+    <thead><tr><th>Time</th><th>User</th><th>Action</th><th>Details</th><th>IP</th></tr></thead>
+    <tbody>
+    {% for l in logs %}
+      <tr>
+        <td>{{ l.timestamp }}</td>
+        <td>{{ l.username or ('uid='~l.user_id if l.user_id else '—') }}</td>
+        <td><code>{{ l.action }}</code></td>
+        <td>{{ l.details }}</td>
+        <td>{{ l.ip_address }}</td>
+      </tr>
+    {% else %}
+      <tr><td colspan="5" class="text-muted">No logs.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
